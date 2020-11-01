@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # Compiled class file
 *.class
 
@@ -25,8 +23,6 @@
 hs_err_pid*
 
 # Mulesoft
-
->>>>>>> 6fa4ace80c59cfa5926454bf64ccf1dec5173d87
 
 **/target
 **/.mule
