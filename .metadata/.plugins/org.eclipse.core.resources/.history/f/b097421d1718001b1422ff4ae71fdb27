@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:socket="http://www.mulesoft.org/schema/mule/socket"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/socket http://www.mulesoft.org/schema/mule/socket/current/mule-socket.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7e5c4263-bc97-4f74-8732-df40c2b53ad0">
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<socket:config name="Socket_Config" doc:name="Socket Config" doc:id="88c836dd-c250-4ef6-aa43-52e21fe0c3fe" >
+		<socket:connection />
+	</socket:config>
+	<flow name="customconnectorserviceFlow" doc:id="aa26b272-4054-42c5-a7ae-2faecaa7da4d" >
+		<http:listener doc:name="Listener" doc:id="6a680880-78ff-4c80-8901-47291b1945a7" config-ref="HTTP_Listener_config" path="/send"/>
+		<socket:send-receive doc:name="Send receive" doc:id="82a7284d-479b-4ae4-b271-f35cd1a95a43" config-ref="Socket_Config" message="this is a test message !!"/>
+		<ee:transform doc:name="Transform Message" doc:id="6e075976-abb4-407c-91ce-776b7b108318" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	received: payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

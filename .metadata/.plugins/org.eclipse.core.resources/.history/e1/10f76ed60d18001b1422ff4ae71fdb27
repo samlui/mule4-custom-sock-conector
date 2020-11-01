@@ -1,0 +1,111 @@
+package com.mule.custom.connector.socket.internal;
+
+import static org.mule.runtime.extension.api.annotation.param.MediaType.ANY;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
+import org.mule.runtime.extension.api.annotation.param.MediaType;
+import org.mule.runtime.extension.api.annotation.param.Config;
+import org.mule.runtime.extension.api.annotation.param.Connection;
+
+
+/**
+ * This class is a container for operations, every public method in this class will be taken as an extension operation.
+ */
+public class SocketOperations {
+
+	@MediaType(value = ANY, strict = false)
+	  public String sendReceive(String message, @Config SocketConfiguration configuration, @Connection SocketConnection connection){
+	    System.out.println( "Sending and receiving message from host : [" + connection.getHost() + " : " + connection.getPort() + "]");
+	    return processSendReceive(connection.getHost(), connection.getPort(), connection.getTimeout(), message);
+	  }
+	
+	private String processSendReceive(String host, int port, int timeout, String inMsg) {
+		
+		
+			Socket socket = null;
+			
+			OutputStreamWriter out = null;
+	            
+	        BufferedReader in = null;
+	        String msgResult ="";
+	        
+	        System.out.println( "calling method processSendReceive : " + host + " : " + port + " : " + inMsg );
+
+		 try
+	        {
+	            // Connect to the server
+			 	
+	            socket = new Socket( host, port );
+	            socket.setSoTimeout( timeout );
+	            // Create input and output streams to read from and write to the server
+	            out = new OutputStreamWriter( socket.getOutputStream() , StandardCharsets.ISO_8859_1 );
+	            
+	            in = new BufferedReader( new InputStreamReader( socket.getInputStream(), StandardCharsets.ISO_8859_1 ));
+	            
+	            String strEBCDIC =
+	            		new String(Charset.forName("IBM037").encode(inMsg).array(), StandardCharsets.ISO_8859_1);
+	            
+	            System.out.println( "sent debit request (EBCDIC-binary) "   + strEBCDIC.length() + " : " +  strEBCDIC.getBytes().length  + "  \"" + strEBCDIC  + "\"");
+	                
+	            out.write(strEBCDIC);
+	            out.flush();
+	            
+	            // receive
+	            
+				String str = "";
+				
+				ByteBuffer bBuff = ByteBuffer.allocateDirect( 2048 );
+				CharBuffer cbuff = bBuff.asCharBuffer();
+				
+				
+				int size = in.read( cbuff );
+				
+				//gets the message from the stream
+				for ( int i = 0; i < size; i++ ) {
+					str += cbuff.get( i );
+				}
+				
+				byte[] myBytes = str.getBytes( StandardCharsets.ISO_8859_1 );
+				
+				System.out.println("received mainframe response : " + myBytes.length);
+				
+				printHex(myBytes);
+				
+				//converts the ebcdic to ascii
+				ByteBuffer bb = ByteBuffer.wrap(myBytes);
+				
+				msgResult = Charset.forName("IBM037").decode(bb).toString();
+				
+				System.out.println( "mainframe ASCII Response (ASCII) " + msgResult.length() + " : " + "\"" + msgResult + "\"" );
+				 
+	            
+	            // Close our streams
+	            in.close();
+	            out.close();
+	            socket.close();
+	        }
+	        catch( Exception e )
+	        {
+	            e.printStackTrace();
+	            
+	        } finally {
+	        	try {
+		        	in.close();
+		            out.close();
+		            socket.close();
+	        	} catch (Exception ex) {
+	        		ex.printStackTrace();
+	        	}
+	        }
+		
+		 return msgResult;
+	}
+}

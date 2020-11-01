@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:socket="http://www.mulesoft.org/schema/mule/socket"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/socket http://www.mulesoft.org/schema/mule/socket/current/mule-socket.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6ec7c86b-ddbb-4ada-ab7e-3675823f93b3" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="testconnectorFlow" doc:id="1f553b73-a298-4073-b0f0-b9b2f64a3f64" >
+		<http:listener doc:name="Listener" doc:id="3e82764d-9e9a-4de3-be5a-6e57be8a0501" path="/test" config-ref="HTTP_Listener_config"/>
+		<socket:send-receive doc:name="Send receive" doc:id="6317b690-644c-4189-a708-f982b6f1ecb9" message="#[attributes.queryParams.msg]"/>
+		<ee:transform doc:name="Transform Message" doc:id="d7d5851d-1e17-439a-842b-fa531a64107f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	received: payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

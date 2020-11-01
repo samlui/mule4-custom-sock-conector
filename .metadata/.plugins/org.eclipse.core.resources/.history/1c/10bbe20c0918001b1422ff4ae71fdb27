@@ -1,0 +1,104 @@
+package com.mule.tcp;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.codec.binary.Hex;
+
+
+public class TcpSockClient {
+
+	public static void main( String[] args )
+    {
+		
+//    	String _DebitReqHex= "F0F3F1F5D4F2F0F1F0F0F0F0D4C4E6F0F1404040F0F0F0F0F1F0F5F5F3F1F0F26AE2D5F0F0F0F0F0F06AD5F0F0F0F0F0F0F0F1F6F2F8F7F4F8F36AE5D1C9D5C46AE5F1F0F0F16AF3C8F9F0F76AC8F1F3F7F6F1F9F6F9F0F9F06AE5D9F16AE5F2F7F3F06AE5F0E2C1D6D740D4E34040404040406AC2C4F0F1F0F7F1F9F8F86AE2C6D6E66AC8F0F9F0F76AE5F3F1F0F06AE5F8F46AD5F2D4C340E3C1E5C9E2C840E2D6C1D740404040404040404040404040404040404040404040404040406AD5F3D9C9E9C1D340404040404040404040404040404040404040404040404040404040404040404040406AD5F4E3C1E8E3C1E840404040404040404040404040406AD5F5F1F9F2F04040404040406AE6F1F9F0F76AD5E8F1F9F2F06AD7C5D7E2406AC8C3F16AC3C9C2E26AC1C3D6C3D640404040406AE2C3D6C3D64040404040";
+//    	String _DebitRespHex = "00000087D4F2F0F1F0F0F0F0F0F0D4C4E6F0F140F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0406AE2F16AC4D7E2E3C1D9E3406AE2D540F0F0F0F0F0F0406AD6C140F9F0F7406040F3F7F6F1F9F6F9F0F9F0406AE5F040E2C1D6D740D4E3404040404040406AD5F040F0F0F0F0F0F0F1F6F2F8F7F4F8F36AE2F16AC5D5C4";
+//
+//		DataInputStream dis = new DataInputStream(s.getInputStream()); 
+//        DataOutputStream dos = new DataOutputStream(s.getOutputStream()); 
+//  
+        if( args.length < 2 )
+        {
+            System.out.println( "Usage: SimpleSocketClientExample <server> <port>" );
+            System.exit( 0 );
+        }
+        String server = args[ 0 ];
+        int port = Integer.valueOf(args[ 1 ]);
+        
+        System.out.println( "connecting to : " + server + " : " + port);
+
+        try
+        {
+            // Connect to the server
+            Socket socket = new Socket( server, port );
+
+            // Create input and output streams to read from and write to the server
+//            OutputStreamWriter out = new OutputStreamWriter( socket.getOutputStream() , StandardCharsets.ISO_8859_1 );
+//            PrintStream out = new PrintStream( socket.getOutputStream() );
+//            BufferedReader in = new BufferedReader( new InputStreamReader( socket.getInputStream(), StandardCharsets.ISO_8859_1 ));
+
+//            String debitEBCDIC =
+//  				  new String( MsgUtil.getDebitReqBytes() , StandardCharsets.ISO_8859_1 );
+     
+            DataInputStream in = new DataInputStream(socket.getInputStream()); 
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream()); 
+      
+            System.out.println( "sent debit request (EBCDIC) "  + _DebitReqHex.length() + " : " + "\"" +  _DebitReqHex + "\"");
+            String debitEBCDIC = new String( Hex.decodeHex(_DebitReqHex), StandardCharsets.ISO_8859_1 );
+            
+            System.out.println( "sent debit request (EBCDIC-binary) "   + debitEBCDIC.length() + " : " +  debitEBCDIC.getBytes().length  + "  \"" + debitEBCDIC  + "\"");
+            
+            String tmpStr = new String( ASCIIEBCDIC.convertStrToASCII(Hex.decodeHex(_DebitReqHex) ) , StandardCharsets.ISO_8859_1 );
+			
+			System.out.println( "sent debit request (ASCII) "   + tmpStr.length() + " : "  + "\"" + tmpStr  + "\"");
+            
+            out.write(debitEBCDIC);
+            out.flush();
+            
+
+			String str = "";
+			
+			ByteBuffer bBuff = ByteBuffer.allocateDirect( 65000 );
+			CharBuffer cbuff = bBuff.asCharBuffer();
+			
+			
+			int size = in.read( cbuff );
+			
+			//gets the message from the stream
+			for ( int i = 0; i < size; i++ ) {
+				str += cbuff.get( i );
+			}
+			
+			byte[] myBytes = str.getBytes( StandardCharsets.ISO_8859_1 );
+			
+			System.out.println("received mainframe response : " + myBytes.length);
+			
+			char[] tmpBytes = Hex.encodeHex( myBytes);
+			System.out.println( "mainframe Response (Hex-EBCDIC) " + tmpBytes.length +  " : " + "\"" + tmpBytes + "\"" );
+			
+			//converts the ebcdic to ascii
+			String msgResult = new String( ASCIIEBCDIC.convertStrToASCII(myBytes ) , StandardCharsets.ISO_8859_1 );
+			
+			System.out.println( "mainframe ASCII Response (ASCII) " + msgResult.length() + " : " + "\"" + msgResult + "\"" );
+			 
+            
+            // Close our streams
+            in.close();
+            out.close();
+            socket.close();
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();
+        }
+    }
+}

@@ -1,0 +1,6 @@
+authenticated.users=[{"id"\:"ab880709-c3b5-4c5c-a5d7-fc6b5813a5ea","token"\:"3fd2777e-eb99-43ef-9bb2-24d28b155c0f","userId"\:"lui-sam","email"\:"samuel.lui@mulesoft.com","refreshToken"\:"","baseUrl"\:"https\://anypoint.mulesoft.com/","org"\:{"name"\:"Mulesoft-Master","id"\:"77ee71ec-914b-477e-a2fb-6d50b737bd57","isMaster"\:true}}]
+current.token=3fd2777e-eb99-43ef-9bb2-24d28b155c0f
+current.user=lui-sam
+eclipse.preferences.version=1
+expiration.time=7
+org.mule.tooling.ui.properties.enable.api.dependencies=true

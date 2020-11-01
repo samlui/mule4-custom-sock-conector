@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="org.eclipse.draw2d:3.10.100.201606061308"/>
+		<item value="org.eclipse.egit:5.8.1.202007141445-r"/>
+		<item value="org.eclipse.emf.common:2.19.0.v20200324-0932"/>
+		<item value="org.eclipse.emf.ecore:2.22.0.v20200519-1135"/>
+		<item value="org.eclipse.gef:3.11.0.201606061308"/>
+		<item value="org.eclipse.help:2.3.200.v20200604-0540"/>
+		<item value="org.eclipse.jdt:3.18.400.v20200604-0540"/>
+		<item value="org.eclipse.jgit.gpg.bc:5.8.1.202007141445-r"/>
+		<item value="org.eclipse.jgit.http.apache:5.8.1.202007141445-r"/>
+		<item value="org.eclipse.jgit.ssh.apache:5.8.1.202007141445-r"/>
+		<item value="org.eclipse.jgit.ssh.jsch:5.8.1.202007141445-r"/>
+		<item value="org.eclipse.jgit:5.8.1.202007141445-r"/>
+		<item value="org.eclipse.m2e.feature:1.15.0.20200310-1832"/>
+		<item value="org.eclipse.platform:4.16.0.v20200604-0951"/>
+		<item value="org.eclipse.rcp:4.16.0.v20200604-0951"/>
+		<item value="org.eclipse.wst.json_ui.feature:1.1.8.v202004230532"/>
+		<item value="org.eclipse.wst.xml_ui.feature:3.18.0.v202005192253"/>
+		<item value="org.eclipse.xsd.edit:2.12.0.v20190323-1100"/>
+		<item value="org.eclipse.xsd:2.18.0.v20200319-1246"/>
+		<item value="org.mule.apieditor:3.0.2.202010012020"/>
+		<item value="org.mule.tooling.extension.server.4.2.2.ee:7.3.5.202005121735"/>
+		<item value="org.mule.tooling.extension.server.4.3.0.ee:7.3.5.202010151511"/>
+		<item value="org.mule.tooling.munit.extension:2.7.0.202009161648"/>
+		<item value="org.mule.tooling.studio:7.7.0.202010222213"/>
+		<item value="org.mule.tooling:7.7.0.202010222213"/>
+	</list>
+	<section name="ExternalProjectImportWizard">
+		<item key="WizardProjectsImportPage.STORE_NESTED_PROJECTS" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="true"/>
+		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/Users/samuel/AnypointStudio/metrobank2"/>
+			<item value="/Users/samuel/AnypointStudio/metrobank-mb-domain/TcpSockServer"/>
+			<item value="/Users/samuel/AnypointStudio/metrobank-mb-domain/TpmsConnector"/>
+			<item value="/Users/samuel/tmp/tmp2/mule-sock-connector"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog">
+		<item key="ShowStatusLine" value="true"/>
+		<item key="History" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0A;&lt;History&gt;&#x0A;&lt;historyRootNode/&gt;&#x0A;&lt;/History&gt;"/>
+		<item key="ShowDerived" value="false"/>
+		<item key="FilterByLocation" value="false"/>
+		<item key="WorkingSet" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0A;&lt;workingSet workingSetName=&quot;&quot;/&gt;"/>
+		<section name="DialogBoundsSettings">
+			<item key="DIALOG_HEIGHT" value="500"/>
+			<item key="DIALOG_WIDTH" value="600"/>
+			<item key="DIALOG_X_ORIGIN" value="302"/>
+			<item key="DIALOG_Y_ORIGIN" value="119"/>
+			<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+		</section>
+	</section>
+</section>
